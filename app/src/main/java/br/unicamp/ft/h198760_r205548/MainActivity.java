@@ -1,6 +1,7 @@
 package br.unicamp.ft.h198760_r205548;
 
 import android.os.Bundle;
+import android.support.constraint.solver.widgets.ChainHead;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -12,9 +13,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private EditText inputValor;
+    private EditText inputData;
+    private EditText inputNome;
+    private CheckBox checkBox;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +52,26 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        inputValor  = findViewById(R.id.inp_valor);
+        inputData   = findViewById(R.id.inp_data);
+        checkBox    = findViewById(R.id.checkbox);
+        inputNome   = findViewById(R.id.inp_nome);
+
+        inputNome.setVisibility(View.INVISIBLE);
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    inputNome.setVisibility(View.VISIBLE);
+                }else {
+                    inputNome.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -98,4 +130,20 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void onButtonClicked(View view){
+        String info = "";
+
+        info += inputValor.getText().toString() + "\n" + inputData.getText().toString();
+
+        if(checkBox.isChecked()){
+            info += "\n" + inputNome.getText().toString();
+        }
+
+        if(!info.equals("\n")){
+            Toast.makeText(this, "" + info, Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 }
