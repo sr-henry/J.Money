@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.constraint.solver.widgets.ChainHead;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,11 +25,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private EditText inputValor;
-    private EditText inputData;
-    private EditText inputNome;
-    private CheckBox checkBox;
-
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,24 +51,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        ;
 
-        inputValor  = findViewById(R.id.inp_valor);
-        inputData   = findViewById(R.id.inp_data);
-        checkBox    = findViewById(R.id.checkbox);
-        inputNome   = findViewById(R.id.inp_nome);
-
-        inputNome.setVisibility(View.INVISIBLE);
-
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    inputNome.setVisibility(View.VISIBLE);
-                }else {
-                    inputNome.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
+        fragmentManager = getSupportFragmentManager();
 
 
     }
@@ -113,8 +97,24 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+
+            Fragment input = fragmentManager.findFragmentByTag("input");
+
+            if(input == null){
+                input = new InputFragment();
+            }
+
+            replaceFragment(input, "input");
+
         } else if (id == R.id.nav_gallery) {
+
+            Fragment list = fragmentManager.findFragmentByTag("list");
+
+            if(list == null){
+                list = new ListFragment();
+            }
+
+            replaceFragment(list, "list");
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -131,19 +131,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void onButtonClicked(View view){
-        String info = "";
-
-        info += inputValor.getText().toString() + "\n" + inputData.getText().toString();
-
-        if(checkBox.isChecked()){
-            info += "\n" + inputNome.getText().toString();
-        }
-
-        if(!info.equals("\n")){
-            Toast.makeText(this, "" + info, Toast.LENGTH_SHORT).show();
-        }
-
+    public void replaceFragment(Fragment fragment, String tag){
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.placeHolder, fragment, tag);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 }

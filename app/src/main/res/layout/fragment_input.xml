@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InputFragment"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Informações Sobre a Divida"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        />
+
+    <EditText
+        android:id="@+id/etValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Valor (R$)"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/etTerm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Prazo (dias)"
+        android:inputType="date"
+        android:textAlignment="center"
+        android:singleLine="true"/>
+
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="Nome do Envolvido"
+        android:textAlignment="center"
+        android:singleLine="true"/>
+
+
+    <RadioGroup
+        android:id="@+id/radioGroupType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/rbDivida"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Divida"/>
+        <RadioButton
+            android:id="@+id/rbEmprestimo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Emprestimo"/>
+
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/btInput"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ADICIONAR"
+        />
+
+</LinearLayout>
