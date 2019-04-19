@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import Interfaces.OnEditRequest;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,15 +36,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -54,6 +47,29 @@ public class MainActivity extends AppCompatActivity
         ;
 
         fragmentManager = getSupportFragmentManager();
+
+        Fragment input = new InputFragment();
+
+        ((InputFragment) input).setOnEditRequest(new OnEditRequest() {
+            @Override
+            public void OnEditRequest(int position) {
+
+                Fragment edit = fragmentManager.findFragmentByTag("edit");
+
+                if(edit == null){
+                    edit = new EditFragment();
+                }
+
+                ((EditFragment) edit).setArguments(position);
+
+                replaceFragment(edit, "edit");
+
+            }
+        });
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.placeHolder, input, "input");
+        fragmentTransaction.commit();
 
 
     }
@@ -100,21 +116,17 @@ public class MainActivity extends AppCompatActivity
 
             Fragment input = fragmentManager.findFragmentByTag("input");
 
-            if(input == null){
-                input = new InputFragment();
-            }
-
             replaceFragment(input, "input");
 
         } else if (id == R.id.nav_gallery) {
 
-            Fragment list = fragmentManager.findFragmentByTag("list");
+            Fragment search = fragmentManager.findFragmentByTag("search");
 
-            if(list == null){
-                list = new ListFragment();
+            if(search == null){
+                search = new SearchFragment();
             }
 
-            replaceFragment(list, "list");
+            replaceFragment(search, "search");
 
         } else if (id == R.id.nav_slideshow) {
 
