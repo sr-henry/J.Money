@@ -30,6 +30,22 @@
         android:layout_height="wrap_content"
         android:singleLine="true"/>
 
+    <RadioGroup
+        android:id="@+id/rgTypeEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/rbDividaEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Divida"/>
+        <RadioButton
+            android:id="@+id/rbEmprestimoEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Emrestimo"/>
+    </RadioGroup>
+
     <Button
         android:id="@+id/btUpdate"
         android:layout_width="match_parent"

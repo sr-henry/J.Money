@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.add(R.id.placeHolder, input, "input");
         fragmentTransaction.commit();
 
-
     }
 
     @Override
@@ -129,6 +128,14 @@ public class MainActivity extends AppCompatActivity
             replaceFragment(search, "search");
 
         } else if (id == R.id.nav_slideshow) {
+
+            Fragment report = fragmentManager.findFragmentByTag("report");
+
+            if(report == null){
+                report = new ReportFragment();
+            }
+
+            replaceFragment(report, "report");
 
         } else if (id == R.id.nav_manage) {
 

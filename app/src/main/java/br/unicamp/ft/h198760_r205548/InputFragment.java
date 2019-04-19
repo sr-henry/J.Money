@@ -9,11 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import Interfaces.OnEditRequest;
+
+import static android.view.View.VISIBLE;
 
 
 /**
@@ -27,9 +31,12 @@ public class InputFragment extends Fragment {
     private EditText        editTextTerm;
     private EditText        editTextName;
     private RadioGroup      radioGroup;
+    private CheckBox        checkBox;
     private Button          button;
 
     private OnEditRequest onEditRequest;
+
+    String strValue, strTerm;
 
     private double  value;
     private int     term;
@@ -60,23 +67,38 @@ public class InputFragment extends Fragment {
         adapterDoMal = new AdapterDoMal(Dividas.list);
         recyclerView.setAdapter(adapterDoMal);
 
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                value = Double.parseDouble(editTextValue.getText().toString());
-                term = Integer.parseInt(editTextTerm.getText().toString());
-                name = editTextName.getText().toString();
-
                 int id = radioGroup.getCheckedRadioButtonId();
 
-                if (id == R.id.rbEmprestimo) {
-                    type = 1;
+                strValue    = editTextValue.getText().toString();
+                strTerm     = editTextTerm.getText().toString();
+                name = editTextName.getText().toString();
+
+                if(!strValue.equals("") && !strTerm.equals("") && !name.equals("")){
+
+                    value = Double.parseDouble(strValue);
+
+                    term = Integer.parseInt(strTerm);
+
+
+                    if (id == R.id.rbEmprestimo) {
+                        type = 1;
+                    }
+
+                    adapterDoMal.addItem(value, term, name, type);
+
+                    Toast.makeText(getContext(), "ADD", Toast.LENGTH_SHORT).show();
+
+                    clearEditText();
+
+                } else {
+                    Toast.makeText(getContext(), "VALORES INVALIDOS", Toast.LENGTH_SHORT).show();
                 }
-
-                adapterDoMal.addItem(value, term, name, type);
-
-                Toast.makeText(getContext(), "ADD", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -103,6 +125,12 @@ public class InputFragment extends Fragment {
 
     public void setOnEditRequest(OnEditRequest onEditRequest){
         this.onEditRequest = onEditRequest;
+    }
+
+    public void clearEditText(){
+        editTextValue.getText().clear();
+        editTextTerm.getText().clear();
+        editTextName.getText().clear();
     }
 
 }

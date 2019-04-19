@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,9 @@ public class EditFragment extends Fragment {
     private EditText editTextValueEdit;
     private EditText editTextTermEdit;
     private EditText editTextNameEdit;
+    private RadioButton radioButtonDivida, radioButtonEmprestimo;
+
+    private String strValueEdit, strTermEdit, strNameEdit;
 
     private Button updateButton;
 
@@ -41,16 +46,36 @@ public class EditFragment extends Fragment {
         editTextTermEdit    = v.findViewById(R.id.etTermEdit);
         editTextNameEdit    = v.findViewById(R.id.etNameEdit);
         updateButton        = v.findViewById(R.id.btUpdate);
+        radioButtonDivida   = v.findViewById(R.id.rbDividaEdit);
+        radioButtonEmprestimo = v.findViewById(R.id.rbEmprestimoEdit);
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                obj.setValue(Double.parseDouble(editTextValueEdit.getText().toString()));
-                obj.setTerm(Integer.parseInt(editTextTermEdit.getText().toString()));
-                obj.setName(editTextNameEdit.getText().toString());
+                strValueEdit    = editTextValueEdit.getText().toString();
+                strTermEdit     = editTextTermEdit.getText().toString();
+                strNameEdit     = editTextNameEdit.getText().toString();
 
-                Toast.makeText(getContext(), "ATUALIZADO", Toast.LENGTH_SHORT).show();
+                if(!strValueEdit.equals("") && !strTermEdit.equals("") && !strNameEdit.equals("")){
+
+                    obj.setValue(Double.parseDouble(strValueEdit));
+                    obj.setTerm(Integer.parseInt(strTermEdit));
+                    obj.setName(strNameEdit);
+
+                    if(radioButtonDivida.isChecked()){
+                        obj.setType(0);
+                    }
+                    if(radioButtonEmprestimo.isChecked()){
+                        obj.setType(1);
+                    }
+
+                    Toast.makeText(getContext(), "ATUALIZADO", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getContext(), "VALORES INVALIDOS", Toast.LENGTH_SHORT).show();
+                }
+
+
 
             }
         });
@@ -70,6 +95,12 @@ public class EditFragment extends Fragment {
         editTextValueEdit.setText(String.valueOf(obj.getValue()));
         editTextTermEdit.setText(String.valueOf(obj.getTerm()));
         editTextNameEdit.setText(obj.getName());
+
+        if(obj.getType() == 0){
+            radioButtonDivida.toggle();
+        }else{
+            radioButtonEmprestimo.toggle();
+        }
 
     }
 
