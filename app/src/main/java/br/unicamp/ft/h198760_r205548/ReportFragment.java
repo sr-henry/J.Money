@@ -40,7 +40,7 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 for(int i = 0; i < Dividas.list.size(); i++){
-                    if(Dividas.list.get(i).getType() == 0){
+                    if(Dividas.list.get(i).getType().equals("Divida")){
                         divida -= Dividas.list.get(i).getValue();
                     }else {
                         emprestimo += Dividas.list.get(i).getValue();

@@ -12,8 +12,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import Interfaces.OnEditRequest;
 
@@ -33,6 +39,7 @@ public class InputFragment extends Fragment {
     private RadioGroup      radioGroup;
     private CheckBox        checkBox;
     private Button          button;
+    private Spinner         spinner;
 
     private OnEditRequest onEditRequest;
 
@@ -41,7 +48,8 @@ public class InputFragment extends Fragment {
     private double  value;
     private int     term;
     private String  name;
-    private int     type = 0;
+    private String  type;
+    private String  date;
 
     public InputFragment() {
         // Required empty public constructor
@@ -60,6 +68,10 @@ public class InputFragment extends Fragment {
         button          = v.findViewById(R.id.btInput);
         radioGroup      = v.findViewById(R.id.radioGroupType);
         recyclerView    = v.findViewById(R.id.recycleView);
+        checkBox        = v.findViewById(R.id.cbParcelado);
+        spinner         = v.findViewById(R.id.spinner);
+
+        spinner.setVisibility(View.INVISIBLE);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -67,13 +79,24 @@ public class InputFragment extends Fragment {
         adapterDoMal = new AdapterDoMal(Dividas.list);
         recyclerView.setAdapter(adapterDoMal);
 
-
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    spinner.setVisibility(View.VISIBLE);
+                }else {
+                    spinner.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                int id = radioGroup.getCheckedRadioButtonId();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Date d = new Date();
+                date = dateFormat.format(d);
 
                 strValue    = editTextValue.getText().toString();
                 strTerm     = editTextTerm.getText().toString();
@@ -85,12 +108,14 @@ public class InputFragment extends Fragment {
 
                     term = Integer.parseInt(strTerm);
 
-
-                    if (id == R.id.rbEmprestimo) {
-                        type = 1;
+                    if(radioGroup.getCheckedRadioButtonId() == R.id.rbDivida){
+                        type = "Divida";
+                    }else {
+                        type = "Emprestimo";
                     }
 
-                    adapterDoMal.addItem(value, term, name, type);
+
+                    adapterDoMal.addItem(value, term, name, type, date);
 
                     Toast.makeText(getContext(), "ADD", Toast.LENGTH_SHORT).show();
 

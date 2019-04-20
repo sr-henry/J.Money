@@ -64,10 +64,10 @@ public class EditFragment extends Fragment {
                     obj.setName(strNameEdit);
 
                     if(radioButtonDivida.isChecked()){
-                        obj.setType(0);
+                        obj.setType(radioButtonDivida.getText().toString());
                     }
                     if(radioButtonEmprestimo.isChecked()){
-                        obj.setType(1);
+                        obj.setType(radioButtonEmprestimo.getText().toString());
                     }
 
                     Toast.makeText(getContext(), "ATUALIZADO", Toast.LENGTH_SHORT).show();
@@ -96,7 +96,7 @@ public class EditFragment extends Fragment {
         editTextTermEdit.setText(String.valueOf(obj.getTerm()));
         editTextNameEdit.setText(obj.getName());
 
-        if(obj.getType() == 0){
+        if(obj.getType().equals("Divida")){
             radioButtonDivida.toggle();
         }else{
             radioButtonEmprestimo.toggle();

@@ -66,6 +66,7 @@ public class AdapterDoMal extends RecyclerView.Adapter {
         private TextView textViewTerm;
         private TextView textViewName;
         private TextView textViewType;
+        private TextView textViewDate;
 
         private int      position;
 
@@ -76,18 +77,15 @@ public class AdapterDoMal extends RecyclerView.Adapter {
             textViewTerm    = itemView.findViewById(R.id.tvTerm);
             textViewName    = itemView.findViewById(R.id.tvName);
             textViewType    = itemView.findViewById(R.id.tvType);
+            textViewDate    = itemView.findViewById(R.id.tvDate);
         }
 
         public void bind(Divida divida, int pos){
             textViewValue.setText(String.valueOf(divida.getValue()));
             textViewTerm.setText(String.valueOf(divida.getTerm()));
             textViewName.setText(divida.getName());
-
-            if(divida.getType() == 0){
-                textViewType.setText("Divida");
-            }else{
-                textViewType.setText("Emprestimo");
-            }
+            textViewType.setText(divida.getType());
+            textViewDate.setText(divida.getDate());
 
             this.position = pos;
         }
@@ -98,8 +96,8 @@ public class AdapterDoMal extends RecyclerView.Adapter {
 
     }
 
-    public void addItem(double value, int term, String name, int type){
-        list.add(new Divida(value, term, name, type));
+    public void addItem(double value, int term, String name, String type, String date){
+        list.add(new Divida(value, term, name, type, date));
         notifyDataSetChanged();
     }
 
