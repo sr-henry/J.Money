@@ -7,16 +7,10 @@
     tools:context=".ReportFragment"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btReport"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Calcular"/>
-
     <TextView
         android:id="@+id/tvReport"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:textAlignment="center"/>
 
 </LinearLayout>

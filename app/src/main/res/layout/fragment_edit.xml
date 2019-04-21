@@ -6,52 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".EditFragment"
     android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <EditText
+        android:id="@+id/etNomeEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nome do envolvido"
+        android:inputType="text"
+        android:singleLine="true"/>
+    <EditText
         android:id="@+id/etValueEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Valor"
         android:inputType="numberDecimal"
         android:singleLine="true"/>
 
-    <EditText
-        android:id="@+id/etTermEdit"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:singleLine="true"/>
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/etNameEdit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true"/>
-
-    <RadioGroup
-        android:id="@+id/rgTypeEdit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RadioButton
-            android:id="@+id/rbDividaEdit"
+        <RadioGroup
+            android:id="@+id/rgTypeEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Divida"/>
-        <RadioButton
-            android:id="@+id/rbEmprestimoEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Emprestimo"/>
-    </RadioGroup>
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/rbDividaEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Divida" />
+
+            <RadioButton
+                android:id="@+id/rbEmprestimoEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Emprestimo" />
+
+        </RadioGroup>
+
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btUpdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="salvar"/>
-
-
+        android:text="atualizar"/>
 
 </LinearLayout>

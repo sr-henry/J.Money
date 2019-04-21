@@ -1,60 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InputFragment"
+    tools:context=".FinanciamentoFragment"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:paddingTop="@dimen/activity_vertical_margin"
+    >
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleView"
+        android:id="@+id/rvFinanciamentos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
     </android.support.v7.widget.RecyclerView>
 
     <Button
-        android:id="@+id/btInput"
-        android:layout_gravity="center_horizontal"
+        android:id="@+id/btAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ADICIONAR"
-        />
+        android:text="Button" />
 
-
+    <EditText
+        android:id="@+id/etNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nome do envolvido"
+        android:inputType="text"
+        android:singleLine="true"/>
     <EditText
         android:id="@+id/etValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Valor (R$)"
+        android:hint="Valor"
         android:inputType="numberDecimal"
-        android:textAlignment="center"
         android:singleLine="true"/>
 
-
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="Nome do Envolvido"
-        android:textAlignment="center"
-        android:singleLine="true"/>
-
-    <EditText
-        android:id="@+id/etTerm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Prazo (dias)"
-        android:inputType="date"
-        android:textAlignment="center"
-        android:singleLine="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,38 +47,48 @@
         android:orientation="horizontal">
 
         <RadioGroup
-            android:id="@+id/radioGroupType"
+            android:id="@+id/rgType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2">
+            android:orientation="vertical"
+            android:layout_weight="1">
+
             <RadioButton
                 android:id="@+id/rbDivida"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Divida"/>
+                android:text="Divida" />
+
             <RadioButton
                 android:id="@+id/rbEmprestimo"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Emprestimo"/>
+                android:text="Emprestimo" />
+
         </RadioGroup>
 
-        <CheckBox
-            android:id="@+id/cbParcelado"
-            android:layout_weight="2"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Parcelado"/>
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:id="@+id/cbTerm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parcelado"/>
+
+            <Spinner
+
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/spinner_values"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/spinner_values">
-    </Spinner>
-
-
 
 </LinearLayout>

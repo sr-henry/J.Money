@@ -16,51 +16,56 @@ import android.widget.TextView;
  */
 public class SearchFragment extends Fragment {
 
-    private EditText editTextSearch;
-    private Button   buttonSearch;
-    private TextView textViewSearchResult;
+    private EditText etSearch;
+    private Button button;
+    private TextView tvResult;
 
-    private String   nameToSearch;
+    private String nameToSearch;
+    private String result = "";
 
-    private String  result = "";
+    Financiamento current;
 
     public SearchFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.fragment_search, container, false);
 
-        editTextSearch = v.findViewById(R.id.etSearch);
-        buttonSearch = v.findViewById(R.id.btSearch);
-        textViewSearchResult = v.findViewById(R.id.tvResult);
+        etSearch    = v.findViewById(R.id.etSearch);
+        button      = v.findViewById(R.id.btSearch);
+        tvResult    = v.findViewById(R.id.tvResult);
 
-        buttonSearch.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nameToSearch = editTextSearch.getText().toString();
 
-                for (int i = 0;i < Dividas.list.size();i++){
-                    if(nameToSearch.equals(Dividas.list.get(i).getName())){
-                        result += String.valueOf(Dividas.list.get(i).getValue()) + "\n";
-                        result += String.valueOf(Dividas.list.get(i).getTerm()) + "\n";
-                        result += Dividas.list.get(i).getName();
+                nameToSearch = etSearch.getText().toString().toLowerCase();
 
-                        textViewSearchResult.setText(result);
+                for (int i = 0; i < Financiamentos.financiamentos.size(); i++){
+
+                    current = Financiamentos.financiamentos.get(i);
+
+                    if(nameToSearch.equals(current.getName())){
+                        result += String.valueOf(current.getValue()) + "\n";
+                        result += String.valueOf(current.getTerm()) + "\n";
+                        result += current.getName() + "\n";
+                        result += current.getTerm();
+
+                        tvResult.setText(result);
 
                         break;
                     }
                 }
 
                 if(result.equals("")){
-                    textViewSearchResult.setText("404 Not Found");
+                    tvResult.setText("404 Not Found");
                 }
 
                 result = "";
-
             }
         });
 
