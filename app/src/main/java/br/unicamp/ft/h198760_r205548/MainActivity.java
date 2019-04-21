@@ -1,7 +1,6 @@
 package br.unicamp.ft.h198760_r205548;
 
 import android.os.Bundle;
-import android.support.constraint.solver.widgets.ChainHead;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -16,18 +15,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.widget.Toast;
 
-import Interfaces.OnEditRequest;
+import interfaces.OnEditRequest;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FragmentManager fragmentManager;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,33 +38,25 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        ;
 
         fragmentManager = getSupportFragmentManager();
 
-        Fragment input = new InputFragment();
+        Fragment financiamento = new FinanciamentoFragment();
 
-        ((InputFragment) input).setOnEditRequest(new OnEditRequest() {
+        ((FinanciamentoFragment)financiamento).setOnEditRequest(new OnEditRequest() {
             @Override
             public void OnEditRequest(int position) {
-
                 Fragment edit = fragmentManager.findFragmentByTag("edit");
-
                 if(edit == null){
                     edit = new EditFragment();
                 }
-
-                ((EditFragment) edit).setArguments(position);
-
                 replaceFragment(edit, "edit");
-
             }
         });
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.placeHolder, input, "input");
+        fragmentTransaction.add(R.id.placeHolder, financiamento, "financiamento");
         fragmentTransaction.commit();
-
 
     }
 
@@ -112,29 +98,29 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_financiamento) {
 
-            Fragment input = fragmentManager.findFragmentByTag("input");
+            Fragment financiamento = fragmentManager.findFragmentByTag("financiamento");
 
-            replaceFragment(input, "input");
+            replaceFragment(financiamento, "financiamento");
 
-        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_buscar) {
 
             Fragment search = fragmentManager.findFragmentByTag("search");
-
             if(search == null){
                 search = new SearchFragment();
             }
 
             replaceFragment(search, "search");
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_calcular) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+            Fragment report = fragmentManager.findFragmentByTag("report");
+            if (report == null){
+                report = new ReportFragment();
+            }
+            replaceFragment(report, "report");
 
         }
 
@@ -149,5 +135,4 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-
 }

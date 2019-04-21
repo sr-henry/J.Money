@@ -6,25 +6,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 public class AdapterDoMal extends RecyclerView.Adapter {
 
-    private ArrayList<Divida> list;
+    private ArrayList<Financiamento> financiamentoArrayList;
     private MyOnLongClickListener myOnLongClickListener;
     private MyOnItemClickListener myOnItemClickListener;
     private int currentPos;
 
-    public AdapterDoMal(ArrayList<Divida> list) {
-        this.list = list;
+    public AdapterDoMal(ArrayList<Financiamento> financiamentoArrayList) {
+        this.financiamentoArrayList = financiamentoArrayList;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycle_item, viewGroup, false);
 
         final ViewHolderDoMal holderDoMal = new ViewHolderDoMal(v);
 
@@ -52,12 +51,12 @@ public class AdapterDoMal extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        ((ViewHolderDoMal)viewHolder).bind(list.get(i), i);
+        ((ViewHolderDoMal)viewHolder).bind(financiamentoArrayList.get(i), i);
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return financiamentoArrayList.size();
     }
 
     public class ViewHolderDoMal extends RecyclerView.ViewHolder{
@@ -66,29 +65,27 @@ public class AdapterDoMal extends RecyclerView.Adapter {
         private TextView textViewTerm;
         private TextView textViewName;
         private TextView textViewType;
+        private TextView textViewDate;
 
         private int      position;
 
         public ViewHolderDoMal(@NonNull View itemView) {
             super(itemView);
-
             textViewValue   = itemView.findViewById(R.id.tvValue);
             textViewTerm    = itemView.findViewById(R.id.tvTerm);
             textViewName    = itemView.findViewById(R.id.tvName);
             textViewType    = itemView.findViewById(R.id.tvType);
+            textViewDate    = itemView.findViewById(R.id.tvDate);
         }
 
-        public void bind(Divida divida, int pos){
-            textViewValue.setText(String.valueOf(divida.getValue()));
-            textViewTerm.setText(String.valueOf(divida.getTerm()));
-            textViewName.setText(divida.getName());
 
-            if(divida.getType() == 0){
-                textViewType.setText("Divida");
-            }else{
-                textViewType.setText("Emprestimo");
-            }
+        public void bind(Financiamento financiamento, int pos){
 
+            textViewValue.setText(String.valueOf(financiamento.getValue()));
+            textViewTerm.setText(String.valueOf(financiamento.getTerm()));
+            textViewName.setText(financiamento.getName());
+            textViewType.setText(financiamento.getType());
+            textViewDate.setText(financiamento.getDate());
             this.position = pos;
         }
 
@@ -98,26 +95,38 @@ public class AdapterDoMal extends RecyclerView.Adapter {
 
     }
 
-    public void addItem(double value, int term, String name, int type){
-        list.add(new Divida(value, term, name, type));
-        notifyDataSetChanged();
+    public boolean addItem(double value, String name, String type, int term, String date){
+        try{
+            financiamentoArrayList.add(new Financiamento(value, name, type, term, date));
+            notifyDataSetChanged();
+        }catch (Exception err){
+            err.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
-    public void removeItem(int position){
-        list.remove(position);
-        notifyItemRemoved(position);
+    public boolean removeItem(int position){
+        try{
+            financiamentoArrayList.remove(position);
+            notifyItemRemoved(position);
+            return true;
+        }catch (Exception err){
+            err.printStackTrace();
+            return false;
+        }
     }
 
     public interface MyOnLongClickListener{
         void MyOnLongClick (int position);
     }
 
-    public  void setMyOnLongClickListener(MyOnLongClickListener listener){
-        this.myOnLongClickListener = listener;
-    }
-
     public interface MyOnItemClickListener{
         void MyOnItemClick(int position);
+    }
+
+    public  void setMyOnLongClickListener(MyOnLongClickListener listener){
+        this.myOnLongClickListener = listener;
     }
 
     public void setMyOnItemClickListener(MyOnItemClickListener listener){

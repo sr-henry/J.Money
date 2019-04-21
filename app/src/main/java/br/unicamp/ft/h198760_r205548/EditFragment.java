@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 
@@ -17,15 +18,17 @@ import android.widget.Toast;
  */
 public class EditFragment extends Fragment {
 
-    private EditText editTextValueEdit;
-    private EditText editTextTermEdit;
-    private EditText editTextNameEdit;
+    View v;
 
-    private Button updateButton;
-
-    private Divida obj;
-
+    private Financiamento financiamento;
     private int position;
+
+    private Button button;
+    private EditText etNome;
+    private EditText etValue;
+    private RadioGroup rgType;
+    private RadioButton rbDivida;
+    private RadioButton rbEmprestimo;
 
     public EditFragment() {
         // Required empty public constructor
@@ -35,41 +38,58 @@ public class EditFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_edit, container, false);
+        v =inflater.inflate(R.layout.fragment_edit, container, false);
 
-        editTextValueEdit   = v.findViewById(R.id.etValueEdit);
-        editTextTermEdit    = v.findViewById(R.id.etTermEdit);
-        editTextNameEdit    = v.findViewById(R.id.etNameEdit);
-        updateButton        = v.findViewById(R.id.btUpdate);
+        button          = v.findViewById(R.id.btUpdate);
+        etNome          = v.findViewById(R.id.etNomeEdit);
+        etValue         = v.findViewById(R.id.etValueEdit);
+        rgType          = v.findViewById(R.id.rgTypeEdit);
+        rbDivida        = v.findViewById(R.id.rbDividaEdit);
+        rbEmprestimo    = v.findViewById(R.id.rbEmprestimoEdit);
 
-        updateButton.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try{
 
-                obj.setValue(Double.parseDouble(editTextValueEdit.getText().toString()));
-                obj.setTerm(Integer.parseInt(editTextTermEdit.getText().toString()));
-                obj.setName(editTextNameEdit.getText().toString());
+                    financiamento.setName(etNome.getText().toString());
+                    financiamento.setValue(Double.parseDouble(etValue.getText().toString()));
 
-                Toast.makeText(getContext(), "ATUALIZADO", Toast.LENGTH_SHORT).show();
+                    if (rgType.getCheckedRadioButtonId() == R.id.rbDividaEdit){
+                        financiamento.setType("divida");
+                    }else{
+                        financiamento.setType("emprestimo");
+                    }
 
+                    Toast.makeText(getContext(), "ATUALIZADO", Toast.LENGTH_SHORT).show();
+
+                }catch (Exception err){
+                    err.printStackTrace();
+                    Toast.makeText(getContext(), "UPDATE ERRO", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         return v;
     }
 
-    public void setArguments(int position){
+    public void setPosition(int position){
         this.position = position;
     }
 
     public void onStart() {
         super.onStart();
 
-        obj = Dividas.list.get(position);
+        financiamento = Financiamentos.financiamentos.get(position);
 
-        editTextValueEdit.setText(String.valueOf(obj.getValue()));
-        editTextTermEdit.setText(String.valueOf(obj.getTerm()));
-        editTextNameEdit.setText(obj.getName());
+        etNome.setText(financiamento.getName());
+        etValue.setText(String.valueOf(financiamento.getValue()));
+
+        if(financiamento.getType().equals("divida")){
+            rbDivida.toggle();
+        }else{
+            rbEmprestimo.toggle();
+        }
 
     }
 
